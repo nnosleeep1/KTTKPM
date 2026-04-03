@@ -1,0 +1,12 @@
+CREATE DATABASE appdb;
+
+\connect appdb;
+
+CREATE TABLE
+IF NOT EXISTS users
+(
+    id SERIAL PRIMARY KEY,
+    username VARCHAR
+(50) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

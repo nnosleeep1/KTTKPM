@@ -1,0 +1,10 @@
+{
+  "name": "node-multistage-demo",
+  "version": "1.0.0",
+  "description": "Node.js app for Docker multi-stage build demo",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "mkdir -p dist && cp src/index.js dist/index.js",
+    "start": "node dist/index.js"
+  }
+}
