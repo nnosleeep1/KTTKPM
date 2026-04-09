@@ -1,0 +1,7 @@
+services:
+  app:
+    build: .
+    container_name: bai13_react_nginx
+    ports:
+      - "3003:80"
+    restart: unless-stopped

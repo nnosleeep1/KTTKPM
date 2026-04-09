@@ -1,0 +1,19 @@
+services:
+  server:
+    image: nginx:alpine
+    container_name: bai14_server
+    networks:
+      - private_net
+
+  client:
+    image: alpine:3.20
+    container_name: bai14_client
+    command: sh -c "sleep infinity"
+    depends_on:
+      - server
+    networks:
+      - private_net
+
+networks:
+  private_net:
+    driver: bridge

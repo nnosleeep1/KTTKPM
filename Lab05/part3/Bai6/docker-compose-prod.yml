@@ -1,0 +1,9 @@
+services:
+  nginx:
+    build:
+      context: .
+      target: prod
+    container_name: part3_bai6_nginx
+    ports:
+      - "8080:80"
+    restart: unless-stopped

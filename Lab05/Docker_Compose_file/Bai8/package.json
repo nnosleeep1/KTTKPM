@@ -1,0 +1,13 @@
+{
+  "name": "bai8-node-mysql",
+  "version": "1.0.0",
+  "description": "Node.js app connected to MySQL",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mysql2": "^3.11.5"
+  }
+}

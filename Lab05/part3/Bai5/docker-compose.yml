@@ -1,0 +1,72 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: part3_bai5_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  db:
+    image: postgres:16-alpine
+    container_name: part3_bai5_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: votes
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d votes"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  vote:
+    build: ./vote
+    container_name: part3_bai5_vote
+    restart: unless-stopped
+    depends_on:
+      - redis
+    ports:
+      - "5000:5000"
+    environment:
+      REDIS_HOST: redis
+      RESULT_URL: http://result:5001
+
+  result:
+    build: ./result
+    container_name: part3_bai5_result
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "5001:5001"
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: votes
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  worker:
+    build: ./worker
+    container_name: part3_bai5_worker
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      REDIS_HOST: redis
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: votes
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+volumes:
+  postgres_data:

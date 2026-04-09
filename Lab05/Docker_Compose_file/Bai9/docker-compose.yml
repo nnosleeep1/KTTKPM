@@ -1,0 +1,7 @@
+services:
+  app:
+    build: .
+    container_name: bai9_flask_app
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
