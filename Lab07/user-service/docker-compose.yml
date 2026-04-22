@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  user-service:
+    build: .
+    ports:
+      - "8081:8081"
+    environment:
+      - MONGODB_URI=mongodb://user-db:27017/movie_user_db
+      - RABBITMQ_URL=amqp://rabbitmq
+    depends_on:
+      - user-db
+      - rabbitmq
+
+  user-db:
+    image: mongo:latest
+    ports:
+      - "27018:27017" # Mapping to different port locally just in case, internal stays 27017
+    volumes:
+      - user-db-data:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+volumes:
+  user-db-data:
