@@ -1,0 +1,16 @@
+{
+  "name": "food-ordering-system",
+  "version": "1.0.0",
+  "scripts": {
+    "start:user": "cd user-service && node index.js",
+    "start:food": "cd food-service && node index.js",
+    "start:order": "cd order-service && node index.js",
+    "start:payment": "cd payment-service && node index.js",
+    "start:gateway": "cd api-gateway && node index.js",
+    "start": "concurrently \"npm run start:user\" \"npm run start:food\" \"npm run start:order\" \"npm run start:payment\" \"npm run start:gateway\""
+  },
+  "dependencies": {
+    "axios": "^1.14.0",
+    "concurrently": "^8.2.2"
+  }
+}
